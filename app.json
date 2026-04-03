@@ -1,14 +1,19 @@
 {
   "expo": {
-    "name": "mexhov-clipboard-mobile",
-    "slug": "mexhov-clipboard-mobile",
+    "name": "mexhovcp",
+    "slug": "mexhovcp",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "mexhovclipboardmobile",
+    "scheme": "mexhovcp",
     "userInterfaceStyle": "automatic",
     "ios": {
-      "icon": "./assets/expo.icon"
+      "icon": "./assets/expo.icon",
+      "bundleIdentifier": "com.mexhov.clipboard",
+      "infoPlist": {
+        "NSBonjourServices": ["_mexhov._tcp."],
+        "NSLocalNetworkUsageDescription": "Allow Mexhov to discover and talk to devices on your local network."
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -17,7 +22,14 @@
         "backgroundImage": "./assets/images/android-icon-background.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.mexhov.clipboard",
+      "permissions": [
+        "android.permission.INTERNET",
+        "android.permission.ACCESS_NETWORK_STATE",
+        "android.permission.ACCESS_WIFI_STATE",
+        "android.permission.CHANGE_WIFI_MULTICAST_STATE"
+      ]
     },
     "web": {
       "output": "static",
