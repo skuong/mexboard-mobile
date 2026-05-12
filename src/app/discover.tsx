@@ -361,7 +361,7 @@ export default function ZeroconfLabScreen() {
               label="Service name"
               value={serviceName}
               onChangeText={setServiceName}
-              placeholder="Mexhov Phone"
+              placeholder="Mexboard Phone"
             />
             <Field
               label="Port"

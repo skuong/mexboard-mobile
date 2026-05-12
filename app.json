@@ -1,18 +1,18 @@
 {
   "expo": {
-    "name": "mexhovcp",
-    "slug": "mexhovcp",
+    "name": "mexboard",
+    "slug": "mexboard",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "mexhovcp",
+    "scheme": "mexboard",
     "userInterfaceStyle": "automatic",
     "ios": {
       "icon": "./assets/expo.icon",
-      "bundleIdentifier": "com.mexhov.clipboard",
+      "bundleIdentifier": "com.mexboard",
       "infoPlist": {
-        "NSBonjourServices": ["_mexhov._tcp."],
-        "NSLocalNetworkUsageDescription": "Allow Mexhov to discover and talk to devices on your local network."
+        "NSBonjourServices": ["_mexboard._tcp."],
+        "NSLocalNetworkUsageDescription": "Allow Mexboard to discover and talk to devices on your local network."
       }
     },
     "android": {
@@ -23,7 +23,7 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": false,
-      "package": "com.mexhov.clipboard",
+      "package": "com.mexboard",
       "permissions": [
         "android.permission.INTERNET",
         "android.permission.ACCESS_NETWORK_STATE",
