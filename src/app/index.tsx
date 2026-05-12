@@ -1,98 +1,86 @@
-import * as Device from "expo-device";
-import { Platform, StyleSheet } from "react-native";
+import { Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { AnimatedIcon } from "@/components/animated-icon";
-import { HintRow } from "@/components/hint-row";
-import { ThemedText } from "@/components/themed-text";
-import { ThemedView } from "@/components/themed-view";
-import { WebBadge } from "@/components/web-badge";
-import { BottomTabInset, MaxContentWidth, Spacing } from "@/constants/theme";
-
-function getDevMenuHint() {
-  if (Platform.OS === "web") {
-    return <ThemedText type="small">use browser devtools</ThemedText>;
-  }
-  if (Device.isDevice) {
-    return (
-      <ThemedText type="small">
-        shake device or press <ThemedText type="code">m</ThemedText> in terminal
-      </ThemedText>
-    );
-  }
-  const shortcut = Platform.OS === "android" ? "cmd+m (or ctrl+m)" : "cmd+d";
-  return (
-    <ThemedText type="small">
-      press <ThemedText type="code">{shortcut}</ThemedText>
-    </ThemedText>
-  );
-}
+import { useState } from "react";
+import { View, TextInput, Button, Text } from "react-native";
+import { authClient } from "@/features/auth/lib/auth-client";
 
 export default function HomeScreen() {
+  const { data: session } = authClient.useSession();
+
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
+  const handleLogin = async () => {
+    await authClient.signIn.email({
+      email,
+      password,
+    });
+  };
+  const handleSignUp = async () => {
+    await authClient.signUp.email({
+      email,
+      password,
+      name,
+    });
+  };
+
   return (
-    <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
-        <ThemedView style={styles.heroSection}>
-          <AnimatedIcon />
-          <ThemedText type="title" style={styles.title}>
-            Welcome Sokhuong to&nbsp;Expo
-          </ThemedText>
-        </ThemedView>
+    <View className="flex justify-center flex-1">
+      <SafeAreaView className="flex px-4 gap-2">
+        <View className="">
+          {!session && (
+            <Text className="text-white border border-pink-400 text-center text-4xl">
+              Log in
+            </Text>
+          )}
+          {session && (
+            <Text className="text-white border border-pink-400 text-center text-2xl">
+              Welcome, {session?.user.name}
+            </Text>
+          )}
+        </View>
 
-        <ThemedText type="code" style={styles.code}>
-          get started
-        </ThemedText>
-
-        <ThemedView type="backgroundElement" style={styles.stepContainer}>
-          <HintRow
-            title="Try editing"
-            hint={<ThemedText type="code">src/app/index.tsx</ThemedText>}
+        <View>
+          <TextInput
+            placeholder="Name"
+            value={name}
+            onChangeText={setName}
+            className="text-white placeholder:text-white"
           />
-          <HintRow title="Dev tools" hint={getDevMenuHint()} />
-          <HintRow
-            title="Fresh start"
-            hint={<ThemedText type="code">npm run reset-project</ThemedText>}
+          <TextInput
+            placeholder="Email"
+            value={email}
+            onChangeText={setEmail}
+            className="text-white placeholder:text-white"
           />
-        </ThemedView>
-
-        {Platform.OS === "web" && <WebBadge />}
+          <TextInput
+            placeholder="Password"
+            value={password}
+            onChangeText={setPassword}
+            className="text-white placeholder:text-white"
+          />
+          <Pressable
+            onPress={handleLogin}
+            className="p-2 border border-gray-600"
+          >
+            <Text className="text-white  text-center">Login</Text>
+          </Pressable>
+          <Button
+            title="Sign Up"
+            onPress={handleSignUp}
+            className="bg-pink-600 font-bold"
+          />
+        </View>
+        <Pressable
+          onPress={async () => {
+            await authClient.signOut();
+          }}
+          className="p-2 border border-pink-600"
+        >
+          <Text className="text-white  text-center">Sign out</Text>
+        </Pressable>
       </SafeAreaView>
-    </ThemedView>
+    </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    flexDirection: "row",
-  },
-  safeArea: {
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    alignItems: "center",
-    gap: Spacing.three,
-    paddingBottom: BottomTabInset + Spacing.three,
-    maxWidth: MaxContentWidth,
-  },
-  heroSection: {
-    alignItems: "center",
-    justifyContent: "center",
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    gap: Spacing.four,
-  },
-  title: {
-    textAlign: "center",
-  },
-  code: {
-    textTransform: "uppercase",
-  },
-  stepContainer: {
-    gap: Spacing.three,
-    alignSelf: "stretch",
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.four,
-    borderRadius: Spacing.four,
-  },
-});
