@@ -12,10 +12,13 @@
   },
   "dependencies": {
     "@better-auth/expo": "^1.6.10",
+    "@polar-sh/better-auth": "^1.8.4",
+    "@polar-sh/sdk": "^0.47.1",
     "@react-navigation/bottom-tabs": "^7.15.5",
     "@react-navigation/elements": "^2.9.10",
     "@react-navigation/native": "^7.1.33",
     "@tailwindcss/postcss": "^4.2.2",
+    "@tanstack/react-query": "^5.100.10",
     "better-auth": "^1.6.10",
     "clsx": "^2.1.1",
     "expo": "~55.0.11",
@@ -59,5 +62,6 @@
     "lightningcss": "1.30.1",
     "**/lightningcss": "1.30.1"
   },
-  "private": true
+  "private": true,
+  "packageManager": "pnpm@11.1.1+sha512.d1fdf5f73c617b64fa1a56a81c3c8dfe0e966e33a6010aa256b517ae77be21d93e05affc0de1a83b0e4f29d569f68b446ae8f068cd7247c0bb3df0fb4d7bdf9a"
 }

@@ -2,27 +2,25 @@ import { Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { useState } from "react";
-import { View, TextInput, Button, Text } from "react-native";
+import { View, TextInput, Text } from "react-native";
 import { authClient } from "@/features/auth/lib/auth-client";
 
 export default function HomeScreen() {
   const { data: session } = authClient.useSession();
 
   const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
-  const handleLogin = async () => {
-    await authClient.signIn.email({
-      email,
-      password,
-    });
-  };
-  const handleSignUp = async () => {
-    await authClient.signUp.email({
-      email,
-      password,
-      name,
-    });
+  const onSignIn = async () => {
+    await authClient.signIn.magicLink(
+      {
+        email,
+        callbackURL: "mexboard://",
+      },
+      {
+        headers: {
+          platform: "mobile",
+        },
+      },
+    );
   };
 
   return (
@@ -30,56 +28,41 @@ export default function HomeScreen() {
       <SafeAreaView className="flex px-4 gap-2">
         <View className="">
           {!session && (
-            <Text className="text-white border border-pink-400 text-center text-4xl">
-              Log in
-            </Text>
+            <Text className="text-white text-center text-4xl">Sign In</Text>
           )}
           {session && (
-            <Text className="text-white border border-pink-400 text-center text-2xl">
-              Welcome, {session?.user.name}
+            <Text className="text-white text-center text-2xl">
+              Welcome, {session?.user.email.split("@")[0]}
             </Text>
           )}
         </View>
 
-        <View>
-          <TextInput
-            placeholder="Name"
-            value={name}
-            onChangeText={setName}
-            className="text-white placeholder:text-white"
-          />
+        <View className="flex flex-col gap-2 mt-16">
           <TextInput
             placeholder="Email"
             value={email}
             onChangeText={setEmail}
-            className="text-white placeholder:text-white"
+            className="text-white placeholder:text-white border border-gray-600"
           />
-          <TextInput
-            placeholder="Password"
-            value={password}
-            onChangeText={setPassword}
-            className="text-white placeholder:text-white"
-          />
+
           <Pressable
-            onPress={handleLogin}
-            className="p-2 border border-gray-600"
+            onPress={onSignIn}
+            className="p-2 border border-gray-600 bg-white"
           >
-            <Text className="text-white  text-center">Login</Text>
+            <Text className="text-black text-center">Send a sign in link</Text>
           </Pressable>
-          <Button
-            title="Sign Up"
-            onPress={handleSignUp}
-            className="bg-pink-600 font-bold"
-          />
         </View>
-        <Pressable
-          onPress={async () => {
-            await authClient.signOut();
-          }}
-          className="p-2 border border-pink-600"
-        >
-          <Text className="text-white  text-center">Sign out</Text>
-        </Pressable>
+
+        {session && (
+          <Pressable
+            onPress={async () => {
+              await authClient.signOut();
+            }}
+            className="p-2 border border-pink-600 my-6"
+          >
+            <Text className="text-white  text-center">Sign out</Text>
+          </Pressable>
+        )}
       </SafeAreaView>
     </View>
   );
