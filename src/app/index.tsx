@@ -1,32 +1,18 @@
 import { Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { useState } from "react";
-import { View, TextInput, Text } from "react-native";
+import { View, Text } from "react-native";
 import { authClient } from "@/features/auth/lib/auth-client";
+import { MagicLinkSignInForm } from "@/features/auth/components/magic-link-sign-in-form";
+import { EmailPasswordSignInSignUpForm } from "@/features/auth/components/email-password-sign-in-sign-up-form";
 
 export default function HomeScreen() {
   const { data: session } = authClient.useSession();
 
-  const [email, setEmail] = useState("");
-  const onSignIn = async () => {
-    await authClient.signIn.magicLink(
-      {
-        email,
-        callbackURL: "mexboard://",
-      },
-      {
-        headers: {
-          platform: "mobile",
-        },
-      },
-    );
-  };
-
   return (
     <View className="flex justify-center flex-1">
       <SafeAreaView className="flex px-4 gap-2">
-        <View className="">
+        <View className="mb-16">
           {!session && (
             <Text className="text-white text-center text-4xl">Sign In</Text>
           )}
@@ -37,21 +23,17 @@ export default function HomeScreen() {
           )}
         </View>
 
-        <View className="flex flex-col gap-2 mt-16">
-          <TextInput
-            placeholder="Email"
-            value={email}
-            onChangeText={setEmail}
-            className="text-white placeholder:text-white border border-gray-600"
-          />
+        {!session && (
+          <View className="flex flex-col gap-5">
+            <MagicLinkSignInForm />
 
-          <Pressable
-            onPress={onSignIn}
-            className="p-2 border border-gray-600 bg-white"
-          >
-            <Text className="text-black text-center">Send a sign in link</Text>
-          </Pressable>
-        </View>
+            <View>
+              <Text className="text-white"> -------------- OR</Text>
+            </View>
+
+            <EmailPasswordSignInSignUpForm />
+          </View>
+        )}
 
         {session && (
           <Pressable
