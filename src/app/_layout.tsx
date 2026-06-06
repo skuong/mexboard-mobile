@@ -1,8 +1,8 @@
 import '@/global.css';
 
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { onlineManager, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { addNetworkStateListener } from 'expo-network';
+import { DarkTheme, DefaultTheme, ThemeProvider } from 'expo-router/react-navigation';
 import { useColorScheme } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { AnimatedSplashOverlay } from '@/components/animated-icon';
