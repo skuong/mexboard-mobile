@@ -1,4 +1,4 @@
 export const QUERY_KEYS = {
-  POLAR_SUBSCRIPTIONS: "polar-subscriptions",
-  POLAR_CUSTOMER_STATE: "polar-customer-state",
-}
+	POLAR_SUBSCRIPTIONS: 'polar-subscriptions',
+	POLAR_CUSTOMER_STATE: 'polar-customer-state',
+};

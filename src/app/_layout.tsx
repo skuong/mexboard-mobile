@@ -1,43 +1,32 @@
-import "@/global.css";
+import '@/global.css';
 
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from "@react-navigation/native";
-import React from "react";
-import { useColorScheme } from "react-native";
-
-import { SafeAreaProvider } from "react-native-safe-area-context";
-
-import { AnimatedSplashOverlay } from "@/components/animated-icon";
-import AppTabs from "@/components/app-tabs";
-import {
-  onlineManager,
-  QueryClient,
-  QueryClientProvider,
-} from "@tanstack/react-query";
-import { addNetworkStateListener } from "expo-network";
+import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { onlineManager, QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { addNetworkStateListener } from 'expo-network';
+import { useColorScheme } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { AnimatedSplashOverlay } from '@/components/animated-icon';
+import AppTabs from '@/components/app-tabs';
 
 onlineManager.setEventListener((setOnline) => {
-  return () =>
-    addNetworkStateListener(({ isConnected }) => {
-      setOnline(!!isConnected);
-    });
+	return () =>
+		addNetworkStateListener(({ isConnected }) => {
+			setOnline(!!isConnected);
+		});
 });
 const queryClient = new QueryClient();
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
+	const colorScheme = useColorScheme();
 
-  return (
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-        <SafeAreaProvider>
-          <AnimatedSplashOverlay />
-          <AppTabs />
-        </SafeAreaProvider>
-      </ThemeProvider>
-    </QueryClientProvider>
-  );
+	return (
+		<QueryClientProvider client={queryClient}>
+			<ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+				<SafeAreaProvider>
+					<AnimatedSplashOverlay />
+					<AppTabs />
+				</SafeAreaProvider>
+			</ThemeProvider>
+		</QueryClientProvider>
+	);
 }
